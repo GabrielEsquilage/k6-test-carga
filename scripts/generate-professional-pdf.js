@@ -11,9 +11,6 @@ const path = require('path');
 
     const metrics = data.metrics;
 
-    // ======================
-    // 📊 EXTRAÇÃO DE DADOS
-    // ======================
 
     const duration = metrics.http_req_duration?.values || {};
     const failed = metrics.http_req_failed?.values || {};
@@ -36,15 +33,11 @@ const path = require('path');
     const vus = metrics.vus_max?.values?.max || 0;
     const durationMs = data.state?.testRunDurationMs || 0;
 
-    // 🔥 fallback p99
     if (!p99 || p99 === 0) {
       p99 = p95 * 1.1;
     }
 
-    // ======================
-    // 🧠 ANÁLISE
-    // ======================
-
+ 
     let status = 'APROVADO';
     let statusColor = '#2ecc71';
 
@@ -55,10 +48,6 @@ const path = require('path');
       status = 'ATENÇÃO';
       statusColor = '#f1c40f';
     }
-
-    // ======================
-    // 🎨 HTML
-    // ======================
 
     const html = `
     <html>
@@ -262,8 +251,8 @@ new Chart(document.getElementById('chart'), {
 
     await page.setContent(html, { waitUntil: 'domcontentloaded' });
 
-  const output = path.resolve(__dirname, '../reports/professional-report.pdf');
-  
+    const output = path.resolve(__dirname, '../reports/Relatorio-K6.pdf');
+
     await page.pdf({
       path: output,
       format: 'A4',
