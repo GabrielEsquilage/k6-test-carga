@@ -5,10 +5,16 @@
   "main": "generate-users.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+
+    "clean": "node scripts/clean-reports.js",
+
     "k6": "K6_WEB_DASHBOARD=true k6 run k6/login-test.js",
-  "test:load": "k6 run --out csv=reports/resultado.csv --summary-export=reports/summary.json k6-portal-aluno/login-portal-test.js",
-  "report": "node scripts/generate-professional-pdf.js",
-  "full:test": "npm run test:load && npm run report"
+
+    "test:load": "k6 run --out csv=reports/resultado.csv --summary-export=reports/summary.json k6-portal-aluno/login-portal-test.js",
+
+    "report": "node scripts/generate-professional-pdf.js",
+
+    "full:test": "npm run clean && npm run test:load && npm run report"
   },
   "repository": {
     "type": "git",
