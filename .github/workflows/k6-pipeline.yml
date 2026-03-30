@@ -31,7 +31,7 @@ jobs:
         run: npm install
 
       - name: Install Puppeteer Chrome
-        run: npx puppeteer browsers install chrome
+        run: npx --yes puppeteer browsers install chrome
 
       - name: Run K6 and Generate Report
         run: npm run full:test
