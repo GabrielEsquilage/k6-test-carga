@@ -37,6 +37,8 @@ jobs:
 
       - name: Run K6 and Generate Report
         run: npm run full:test
+        env:
+          CHROME_PATH: /usr/bin/google-chrome-stable
 
       - name: Upload K6 PDF Report
         uses: actions/upload-artifact@v4
