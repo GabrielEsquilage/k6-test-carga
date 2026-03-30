@@ -1,0 +1,63 @@
+name: K6 Performance Test Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  schedule:
+    - cron: "0 11 * * *" # 08:00 AM GMT-3 (Brasília Time)
+    - cron: "0 15 * * *" # 12:00 PM GMT-3 (Brasília Time)
+    - cron: "0 22 * * *" # 19:00 PM GMT-3 (Brasília Time)
+
+jobs:
+  performance-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20" # Using a recent LTS version
+
+      - name: Set up k6
+        uses: grafana/setup-k6-action@v2
+        with:
+          version: v0.49.0 # Specify a k6 version
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run K6 and Generate Report
+        run: npm run full:test
+
+      - name: Upload K6 PDF Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: k6-pdf-report
+          path: reports/Relatorio-K6.pdf
+
+      - name: Send Email with Report
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com # Replace with your SMTP server (e.g., smtp.gmail.com)
+          server_port: 465 # Replace with your SMTP port (e.g., 587 for TLS, 465 for SSL)
+          username: ${{ secrets.EMAIL_USERNAME }} # GitHub Secret for email username
+          password: ${{ secrets.EMAIL_PASSWORD }} # GitHub Secret for email password (App Password for Gmail)
+          subject: K6 Performance Test Report - ${{ github.event.repository.name }}
+          body: |
+            Olá,
+
+            O teste de performance K6 para o repositório ${{ github.event.repository.name }} foi concluído.
+            Você pode encontrar o relatório PDF detalhado em anexo.
+
+            Commit: ${{ github.sha }}
+            Autor: ${{ github.actor }}
+
+            Atenciosamente,
+            GitHub Actions
+          to: recipient@example.com # Replace with the recipient's email address
+          from: sender@example.com # Replace with the sender's email address
+          attachments: reports/Relatorio-K6.pdf
