@@ -53,6 +53,13 @@ table {
   border-collapse: collapse;
 }
 
+th {
+  background: #f8f9fa;
+  padding: 10px;
+  text-align: left;
+  border-bottom: 2px solid #dee2e6;
+}
+
 td {
   padding: 8px;
   border-bottom: 1px solid #eee;
@@ -103,29 +110,29 @@ canvas {
     <h1>📊 Relatório de Performance</h1>
     <div class="subtitle">Teste de carga automatizado</div>
 
-    <div class="status" style="background:#2ecc71">
-      Status: APROVADO
+    <div class="status" style="background:#f1c40f">
+      Status: ATENÇÃO
     </div>
 
     <div class="grid">
       <div class="card">
         <div class="card-title">Tempo Médio</div>
-        <div class="card-value">60 ms</div>
+        <div class="card-value">667 ms</div>
       </div>
 
       <div class="card">
         <div class="card-title">p95</div>
-        <div class="card-value">81 ms</div>
+        <div class="card-value">2233 ms</div>
       </div>
 
       <div class="card">
         <div class="card-title">p99</div>
-        <div class="card-value">89 ms</div>
+        <div class="card-value">2457 ms</div>
       </div>
 
       <div class="card">
         <div class="card-title">Req/s</div>
-        <div class="card-value">85.87</div>
+        <div class="card-value">51.05</div>
       </div>
     </div>
 
@@ -135,7 +142,7 @@ canvas {
         <tr><td>Duração</td><td>30.0 s</td></tr>
         <tr><td>Usuários Máximos</td><td>200</td></tr>
         <tr><td>Cenário</td><td>Teste progressivo com pico de 200 usuários simultâneos</td></tr>
-        <tr><td>Requisições</td><td>36117</td></tr>
+        <tr><td>Requisições</td><td>21500</td></tr>
         <tr><td>Falhas</td><td>0</td></tr>
       </table>
     </div>
@@ -143,12 +150,24 @@ canvas {
     <div class="section">
       <h3>📊 Estatísticas de Latência</h3>
       <table>
-        <tr><td>Min</td><td>33.47</td></tr>
-        <tr><td>Median</td><td>57.00</td></tr>
-        <tr><td>p90</td><td>77.30</td></tr>
-        <tr><td>p95</td><td>80.99</td></tr>
-        <tr><td>p99</td><td>89.09</td></tr>
-        <tr><td>Max</td><td>373.99</td></tr>
+        <tr><td>Min</td><td>174.45 ms</td></tr>
+        <tr><td>Median</td><td>221.63 ms</td></tr>
+        <tr><td>p90</td><td>1752.71 ms</td></tr>
+        <tr><td>p95</td><td>2233.41 ms</td></tr>
+        <tr><td>p99</td><td>2456.75 ms</td></tr>
+        <tr><td>Max</td><td>3320.72 ms</td></tr>
+      </table>
+    </div>
+
+    <div class="section">
+      <h3>⌛ Distribuição por Faixa de Tempo</h3>
+      <table>
+        <tr>
+          <th>Faixa</th>
+          <th>Quantidade</th>
+          <th>Percentual</th>
+        </tr>
+        <tr><td>< 200ms</td><td>167268 reqs</td><td>64.5%</td></tr><tr><td>200ms - 500ms</td><td>25295 reqs</td><td>9.8%</td></tr><tr><td>500ms - 1s</td><td>29042 reqs</td><td>11.2%</td></tr><tr><td>1s - 2s</td><td>28273 reqs</td><td>10.9%</td></tr><tr><td>2s - 5s</td><td>9164 reqs</td><td>3.5%</td></tr><tr><td>> 5s</td><td>200 reqs</td><td>0.1%</td></tr>
       </table>
     </div>
 
@@ -167,10 +186,10 @@ canvas {
       <h3>🧠 Análise Técnica</h3>
       <ul class="analysis">
         <li>Teste executado com 200 usuários simultâneos</li>
-        <li>Latência p95 em 81 ms</li>
+        <li>Latência p95 em 2233 ms</li>
         <li>Taxa de erro: 0.00%</li>
-        <li>Throughput médio: 85.87 req/s</li>
-        <li>Sistema altamente performático mesmo sob carga.</li>
+        <li>Throughput médio: 51.05 req/s</li>
+        <li>Sistema apresenta degradação significativa sob carga elevada.</li>
         <li>Nenhuma falha detectada durante o teste.</li>
       </ul>
     </div>
@@ -178,7 +197,7 @@ canvas {
     <div class="section">
       <h3>📌 Conclusão</h3>
       <p>
-        Sistema aprovado para carga atual.
+        Sistema requer otimizações antes de produção.
       </p>
     </div>
 
@@ -188,11 +207,11 @@ canvas {
 <script>
 const ctx = document.getElementById('chart').getContext('2d');
 
-const p95Line = Array(100).fill(80.99);
-const p99Line = Array(100).fill(89.09);
-const safeLatencies = [1,51.406341,183.164721,19.217129,81.773307,0.325014,50.90147,0.179857,51.406341,1,2,200,1,61.670118,100.788873,19.545988,80.982344,0.238278,61.17834,0.2535,61.670118,1,2002,8757,1235.25117,1,1,51.426377,0.000492,0.139587,51.112052,0.174738,51.426377,1,1,51.235221,97.133342,17.609576,79.29007,0.192219,50.672594,0.370408,51.235221,1,3,200,2012,8788,1163.355779,1,1,87.836292,0.001247,0.269321,87.310317,0.256654,87.836292,1,166,591,1052.037284,1,1,50.603903,0.001081,0.22285,50.121518,0.259535,50.603903,1,1,69.154268,97.912,17.30257,80.29713,0.253666,68.263496,0.637106,69.154268,1,1999,8788,1149.76439,1,1,72.566189,0.001086,0.224642,72.030606,0.310941,72.566189,1,4,200,176,591,1088.875953,1,1,64.678986].length > 0
-  ? [1,51.406341,183.164721,19.217129,81.773307,0.325014,50.90147,0.179857,51.406341,1,2,200,1,61.670118,100.788873,19.545988,80.982344,0.238278,61.17834,0.2535,61.670118,1,2002,8757,1235.25117,1,1,51.426377,0.000492,0.139587,51.112052,0.174738,51.426377,1,1,51.235221,97.133342,17.609576,79.29007,0.192219,50.672594,0.370408,51.235221,1,3,200,2012,8788,1163.355779,1,1,87.836292,0.001247,0.269321,87.310317,0.256654,87.836292,1,166,591,1052.037284,1,1,50.603903,0.001081,0.22285,50.121518,0.259535,50.603903,1,1,69.154268,97.912,17.30257,80.29713,0.253666,68.263496,0.637106,69.154268,1,1999,8788,1149.76439,1,1,72.566189,0.001086,0.224642,72.030606,0.310941,72.566189,1,4,200,176,591,1088.875953,1,1,64.678986]
-  : [60.43, 80.99, 89.09];
+const p95Line = Array(100).fill(2233.41);
+const p99Line = Array(100).fill(2456.75);
+const safeLatencies = [1,202.788433,230.536476,17.975742,79.130097,0.357098,202.184484,0.246851,202.788433,1,1,200,1998,8787,1434.853003,1,1,206.497495,0.001003,0.180958,206.170622,0.145915,206.497495,1,1,186.690923,98.314535,19.517862,78.693106,0.091189,186.379485,0.220249,186.690923,1,2,200,176,591,1207.1037,1,1,199.963318,0.001346,0.341988,199.095205,0.526125,199.963318,1,1991,8789,1286.250429,1,2,200,1,194.40182,0.00105,0.157968,194.105611,0.138241,194.40182,1,1,212.951218,96.430306,16.92889,79.338837,0.253951,212.517862,0.179405,212.951218,1,176,591,1200.690792,1,3,200,169,591,1195.13171,1,1,223.824181,0.00108,0.235363,223.180521,0.408297,223.824181,1,1,201.332277,0.000259,0.174048,200.634194,0.524035,201.332277,1,1996,8757].length > 0
+  ? [1,202.788433,230.536476,17.975742,79.130097,0.357098,202.184484,0.246851,202.788433,1,1,200,1998,8787,1434.853003,1,1,206.497495,0.001003,0.180958,206.170622,0.145915,206.497495,1,1,186.690923,98.314535,19.517862,78.693106,0.091189,186.379485,0.220249,186.690923,1,2,200,176,591,1207.1037,1,1,199.963318,0.001346,0.341988,199.095205,0.526125,199.963318,1,1991,8789,1286.250429,1,2,200,1,194.40182,0.00105,0.157968,194.105611,0.138241,194.40182,1,1,212.951218,96.430306,16.92889,79.338837,0.253951,212.517862,0.179405,212.951218,1,176,591,1200.690792,1,3,200,169,591,1195.13171,1,1,223.824181,0.00108,0.235363,223.180521,0.408297,223.824181,1,1,201.332277,0.000259,0.174048,200.634194,0.524035,201.332277,1,1996,8757]
+  : [667.14, 2233.41, 2456.75];
 
 new Chart(ctx, {
   type: 'line',
@@ -233,8 +252,8 @@ new Chart(ctx, {
     scales: {
   y: {
     beginAtZero: false,
-    min: 33.47 * 0.9,
-    max: 89.09 * 1.3
+    min: 174.45 * 0.9,
+    max: 2456.75 * 1.3
   }
 }
   }

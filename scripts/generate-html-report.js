@@ -55,7 +55,7 @@ const path = require("path");
       });
     }
 
-    const duration = 
+    const duration =
       metrics.http_req_duration?.values || metrics.http_req_duration || {};
     const failed =
       metrics.http_req_failed?.values || metrics.http_req_failed || {};
@@ -74,6 +74,50 @@ const path = require("path");
     const throughput = reqs.rate || 0;
     const totalRequests = reqs.count || 0;
     const failedRequests = Math.round(failRate * totalRequests);
+
+    // Cálculo da distribuição de latência (Buckets)
+    const allLatencies = [];
+    if (fs.existsSync(csvPath)) {
+      const content = fs.readFileSync(csvPath, "utf-8");
+      const lines = content.split("\n");
+      lines.slice(1).forEach((line) => {
+        const cols = line.split(",");
+        const latency = Number(cols[2]);
+        if (!isNaN(latency) && latency > 0) {
+          allLatencies.push(latency);
+        }
+      });
+    }
+
+    const buckets = [
+      { label: "< 200ms", max: 200, count: 0 },
+      { label: "200ms - 500ms", min: 200, max: 500, count: 0 },
+      { label: "500ms - 1s", min: 500, max: 1000, count: 0 },
+      { label: "1s - 2s", min: 1000, max: 2000, count: 0 },
+      { label: "2s - 5s", min: 2000, max: 5000, count: 0 },
+      { label: "> 5s", min: 5000, count: 0 },
+    ];
+
+    allLatencies.forEach((l) => {
+      for (const b of buckets) {
+        if (b.max && l < b.max && (!b.min || l >= b.min)) {
+          b.count++;
+          break;
+        } else if (!b.max && l >= b.min) {
+          b.count++;
+          break;
+        }
+      }
+    });
+
+    const totalValidReqs = allLatencies.length || 1;
+    const bucketHtml = buckets
+      .filter((b) => b.count > 0)
+      .map((b) => {
+        const percentage = ((b.count / totalValidReqs) * 100).toFixed(1);
+        return `<tr><td>${b.label}</td><td>${b.count} reqs</td><td>${percentage}%</td></tr>`;
+      })
+      .join("");
 
     let vus =
       data.metrics?.vus_max?.values?.max ||
@@ -191,6 +235,13 @@ table {
   border-collapse: collapse;
 }
 
+th {
+  background: #f8f9fa;
+  padding: 10px;
+  text-align: left;
+  border-bottom: 2px solid #dee2e6;
+}
+
 td {
   padding: 8px;
   border-bottom: 1px solid #eee;
@@ -281,12 +332,24 @@ canvas {
     <div class="section">
       <h3>📊 Estatísticas de Latência</h3>
       <table>
-        <tr><td>Min</td><td>${min.toFixed(2)}</td></tr>
-        <tr><td>Median</td><td>${median.toFixed(2)}</td></tr>
-        <tr><td>p90</td><td>${p90.toFixed(2)}</td></tr>
-        <tr><td>p95</td><td>${p95.toFixed(2)}</td></tr>
-        <tr><td>p99</td><td>${p99.toFixed(2)}</td></tr>
-        <tr><td>Max</td><td>${max.toFixed(2)}</td></tr>
+        <tr><td>Min</td><td>${min.toFixed(2)} ms</td></tr>
+        <tr><td>Median</td><td>${median.toFixed(2)} ms</td></tr>
+        <tr><td>p90</td><td>${p90.toFixed(2)} ms</td></tr>
+        <tr><td>p95</td><td>${p95.toFixed(2)} ms</td></tr>
+        <tr><td>p99</td><td>${p99.toFixed(2)} ms</td></tr>
+        <tr><td>Max</td><td>${max.toFixed(2)} ms</td></tr>
+      </table>
+    </div>
+
+    <div class="section">
+      <h3>⌛ Distribuição por Faixa de Tempo</h3>
+      <table>
+        <tr>
+          <th>Faixa</th>
+          <th>Quantidade</th>
+          <th>Percentual</th>
+        </tr>
+        ${bucketHtml}
       </table>
     </div>
 
@@ -316,7 +379,7 @@ canvas {
     <div class="section">
       <h3>📌 Conclusão</h3>
       <p>
-        ${ 
+        ${
           p95 < 1000
             ? "Sistema aprovado para carga atual."
             : "Sistema requer otimizações antes de produção."

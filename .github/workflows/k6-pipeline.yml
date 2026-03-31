@@ -64,3 +64,4 @@ jobs:
           html_body: ${{ steps.html_report.outputs.report_content }}
           to: ${{ secrets.EMAIL_RECIPIENTS }}
           from: ${{ secrets.EMAIL_USERNAME }}
+          attachments: reports/Relatorio-K6.pdf
