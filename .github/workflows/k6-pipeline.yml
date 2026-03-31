@@ -42,7 +42,10 @@ jobs:
 
       - name: Get HTML Report Content
         id: html_report
-        run: echo "report_content=$(cat reports/Relatorio-K6.html)" >> "$GITHUB_OUTPUT"
+        run: |
+          echo "report_content<<EOF" >> "$GITHUB_OUTPUT"
+          cat reports/Relatorio-K6.html >> "$GITHUB_OUTPUT"
+          echo "EOF" >> "$GITHUB_OUTPUT"
 
       - name: Upload K6 PDF Report
         uses: actions/upload-artifact@v4
