@@ -61,7 +61,7 @@ jobs:
           server_port: 587
           username: ${{ secrets.EMAIL_USERNAME }}
           password: ${{ secrets.EMAIL_PASSWORD }}
-          subject: Production Performance Test Report Production
+          subject: Production Performance Test Report
           html_body: ${{ steps.html_report.outputs.report_content }}
           to: ${{ secrets.EMAIL_RECIPIENTS }}
           from: ${{ secrets.EMAIL_USERNAME }}
