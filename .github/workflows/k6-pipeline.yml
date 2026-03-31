@@ -36,7 +36,7 @@ jobs:
           sudo apt-get install -y google-chrome-stable
 
       - name: Run K6 and Generate Report
-        run: npm run full:test
+        run: npm run full:prod
         env:
           CHROME_PATH: /usr/bin/google-chrome-stable
 
