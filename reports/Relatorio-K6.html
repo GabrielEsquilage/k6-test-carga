@@ -1,327 +1,245 @@
+
 <html>
-    <head>
-        <meta charset="UTF-8" />
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<head>
+<meta charset="UTF-8" />
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-        <style>
-            body {
-                font-family: Arial;
-                background: #f4f6f8;
-                padding: 30px;
-                color: #2d3436;
-            }
+<style>
+body {
+  font-family: Arial;
+  background: #f4f6f8;
+  padding: 30px;
+  color: #2d3436;
+}
 
-            h1 {
-                margin-bottom: 5px;
-            }
-            .subtitle {
-                color: #636e72;
-                margin-bottom: 20px;
-            }
+h1 { margin-bottom: 5px; }
+.subtitle { color: #636e72; margin-bottom: 20px; }
 
-            .status {
-                color: white;
-                padding: 15px;
-                border-radius: 8px;
-                font-weight: bold;
-                text-align: center;
-                margin-bottom: 20px;
-            }
+.status {
+  color: white;
+  padding: 15px;
+  border-radius: 8px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px;
+}
 
-            .grid {
-                display: grid;
-                grid-template-columns: repeat(4, 1fr);
-                gap: 15px;
-                margin-bottom: 20px;
-            }
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 15px;
+  margin-bottom: 20px;
+}
 
-            .card {
-                background: white;
-                padding: 15px;
-                border-radius: 8px;
-                text-align: center;
-            }
+.card {
+  background: white;
+  padding: 15px;
+  border-radius: 8px;
+  text-align: center;
+}
 
-            .card-title {
-                font-size: 12px;
-                color: #636e72;
-            }
-            .card-value {
-                font-size: 22px;
-                font-weight: bold;
-            }
+.card-title { font-size: 12px; color: #636e72; }
+.card-value { font-size: 22px; font-weight: bold; }
 
-            .section {
-                background: white;
-                padding: 20px;
-                border-radius: 8px;
-                margin-top: 20px;
-            }
+.section {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  margin-top: 20px;
+}
 
-            table {
-                width: 100%;
-                border-collapse: collapse;
-            }
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
 
-            td {
-                padding: 8px;
-                border-bottom: 1px solid #eee;
-            }
+td {
+  padding: 8px;
+  border-bottom: 1px solid #eee;
+}
 
-            .analysis li {
-                margin-bottom: 6px;
-            }
+.analysis li { margin-bottom: 6px; }
 
-            canvas {
-                max-width: 100%;
-                height: 400px;
-            }
+canvas {
+  max-width: 100%;
+  height: 400px;
+}
 
-            @media print {
-                body {
-                    padding: 0;
-                    margin: 0;
-                }
+@media print {
+  body {
+    padding: 0;
+    margin: 0;
+  }
 
-                .page {
-                    page-break-after: always;
-                    height: 100vh;
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                }
+  .page {
+    page-break-after: always;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 
-                .page:last-child {
-                    page-break-after: auto;
-                }
+  .page:last-child {
+    page-break-after: auto;
+  }
 
-                .container {
-                    width: 90%;
-                    max-width: 900px;
-                }
+  .container {
+    width: 90%;
+    max-width: 900px;
+  }
 
-                .no-break {
-                    page-break-inside: avoid;
-                }
-            }
-        </style>
-    </head>
+  .no-break {
+    page-break-inside: avoid;
+  }
+}
+</style>
+</head>
 
-    <body>
-        <div class="page">
-            <div class="container">
-                <h1>📊 Relatório de Performance</h1>
-                <div class="subtitle">Teste de carga automatizado</div>
+<body>
 
-                <div class="status" style="background: #2ecc71">
-                    Status: APROVADO
-                </div>
+<div class="page">
+  <div class="container">
 
-                <div class="grid">
-                    <div class="card">
-                        <div class="card-title">Tempo Médio</div>
-                        <div class="card-value">59 ms</div>
-                    </div>
+    <h1>📊 Relatório de Performance</h1>
+    <div class="subtitle">Teste de carga automatizado</div>
 
-                    <div class="card">
-                        <div class="card-title">p95</div>
-                        <div class="card-value">80 ms</div>
-                    </div>
+    <div class="status" style="background:#2ecc71">
+      Status: APROVADO
+    </div>
 
-                    <div class="card">
-                        <div class="card-title">p99</div>
-                        <div class="card-value">88 ms</div>
-                    </div>
+    <div class="grid">
+      <div class="card">
+        <div class="card-title">Tempo Médio</div>
+        <div class="card-value">60 ms</div>
+      </div>
 
-                    <div class="card">
-                        <div class="card-title">Req/s</div>
-                        <div class="card-value">65.99</div>
-                    </div>
-                </div>
+      <div class="card">
+        <div class="card-title">p95</div>
+        <div class="card-value">81 ms</div>
+      </div>
 
-                <div class="section">
-                    <h3>⚙️ Configuração</h3>
-                    <table>
-                        <tr>
-                            <td>Duração</td>
-                            <td>30.0 s</td>
-                        </tr>
-                        <tr>
-                            <td>Usuários Máximos</td>
-                            <td>100</td>
-                        </tr>
-                        <tr>
-                            <td>Cenário</td>
-                            <td>
-                                Teste progressivo com pico de 100 usuários
-                                simultâneos
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Requisições</td>
-                            <td>27743</td>
-                        </tr>
-                        <tr>
-                            <td>Falhas</td>
-                            <td>0</td>
-                        </tr>
-                    </table>
-                </div>
+      <div class="card">
+        <div class="card-title">p99</div>
+        <div class="card-value">89 ms</div>
+      </div>
 
-                <div class="section">
-                    <h3>📊 Estatísticas de Latência</h3>
-                    <table>
-                        <tr>
-                            <td>Min</td>
-                            <td>33.74</td>
-                        </tr>
-                        <tr>
-                            <td>Median</td>
-                            <td>56.05</td>
-                        </tr>
-                        <tr>
-                            <td>p90</td>
-                            <td>76.41</td>
-                        </tr>
-                        <tr>
-                            <td>p95</td>
-                            <td>79.79</td>
-                        </tr>
-                        <tr>
-                            <td>p99</td>
-                            <td>87.77</td>
-                        </tr>
-                        <tr>
-                            <td>Max</td>
-                            <td>229.36</td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-        </div>
+      <div class="card">
+        <div class="card-title">Req/s</div>
+        <div class="card-value">85.87</div>
+      </div>
+    </div>
 
-        <div class="page">
-            <div class="container">
-                <div class="section">
-                    <h3>📊 Distribuição de Latência</h3>
-                    <canvas id="chart" class="no-break"></canvas>
-                </div>
+    <div class="section">
+      <h3>⚙️ Configuração</h3>
+      <table>
+        <tr><td>Duração</td><td>30.0 s</td></tr>
+        <tr><td>Usuários Máximos</td><td>200</td></tr>
+        <tr><td>Cenário</td><td>Teste progressivo com pico de 200 usuários simultâneos</td></tr>
+        <tr><td>Requisições</td><td>36117</td></tr>
+        <tr><td>Falhas</td><td>0</td></tr>
+      </table>
+    </div>
 
-                <div class="section">
-                    <h3>🧠 Análise Técnica</h3>
-                    <ul class="analysis">
-                        <li>Teste executado com 100 usuários simultâneos</li>
-                        <li>Latência p95 em 80 ms</li>
-                        <li>Taxa de erro: 0.00%</li>
-                        <li>Throughput médio: 65.99 req/s</li>
-                        <li>Sistema altamente performático mesmo sob carga.</li>
-                        <li>Nenhuma falha detectada durante o teste.</li>
-                    </ul>
-                </div>
+    <div class="section">
+      <h3>📊 Estatísticas de Latência</h3>
+      <table>
+        <tr><td>Min</td><td>33.47</td></tr>
+        <tr><td>Median</td><td>57.00</td></tr>
+        <tr><td>p90</td><td>77.30</td></tr>
+        <tr><td>p95</td><td>80.99</td></tr>
+        <tr><td>p99</td><td>89.09</td></tr>
+        <tr><td>Max</td><td>373.99</td></tr>
+      </table>
+    </div>
 
-                <div class="section">
-                    <h3>📌 Conclusão</h3>
-                    <p>Sistema aprovado para carga atual.</p>
-                </div>
-            </div>
-        </div>
+  </div>
+</div>
 
-        <script>
-            const ctx = document.getElementById("chart").getContext("2d");
+<div class="page">
+  <div class="container">
 
-            const p95Line = Array(100).fill(79.79);
-            const p99Line = Array(100).fill(87.77);
-            const safeLatencies =
-                [
-                    1, 81.149868, 232.253001, 18.928649, 79.145403, 0.093452,
-                    80.731582, 0.324834, 81.149868, 1, 1, 61.621744, 91.491326,
-                    15.439967, 75.821124, 0.226509, 61.19553, 0.199705,
-                    61.621744, 1, 2, 100, 2012, 8787, 1314.857532, 1, 1,
-                    58.217499, 0.001125, 0.384048, 57.745945, 0.087506,
-                    58.217499, 1, 1, 65.695897, 98.022224, 17.699506, 80.138974,
-                    0.238809, 64.60721, 0.849878, 65.695897, 1, 2015, 8787,
-                    1153.816638, 1, 3, 100, 1, 55.185616, 0.001318, 0.253702,
-                    54.747811, 0.184103, 55.185616, 1, 176, 560, 1059.624096, 1,
-                    1, 63.943134, 0.001089, 0.252477, 63.421213, 0.269444,
-                    63.943134, 1, 1, 65.495857, 96.406279, 17.15438, 79.00372,
-                    0.256148, 65.124909, 0.1148, 65.495857, 1, 2011, 8788,
-                    1165.214159, 1, 1, 78.39564, 0.001099, 0.212766, 77.993875,
-                    0.188999, 78.39564, 1, 4, 100, 179, 560, 1056.339702, 1, 1,
-                    53.355167,
-                ].length > 0
-                    ? [
-                          1, 81.149868, 232.253001, 18.928649, 79.145403,
-                          0.093452, 80.731582, 0.324834, 81.149868, 1, 1,
-                          61.621744, 91.491326, 15.439967, 75.821124, 0.226509,
-                          61.19553, 0.199705, 61.621744, 1, 2, 100, 2012, 8787,
-                          1314.857532, 1, 1, 58.217499, 0.001125, 0.384048,
-                          57.745945, 0.087506, 58.217499, 1, 1, 65.695897,
-                          98.022224, 17.699506, 80.138974, 0.238809, 64.60721,
-                          0.849878, 65.695897, 1, 2015, 8787, 1153.816638, 1, 3,
-                          100, 1, 55.185616, 0.001318, 0.253702, 54.747811,
-                          0.184103, 55.185616, 1, 176, 560, 1059.624096, 1, 1,
-                          63.943134, 0.001089, 0.252477, 63.421213, 0.269444,
-                          63.943134, 1, 1, 65.495857, 96.406279, 17.15438,
-                          79.00372, 0.256148, 65.124909, 0.1148, 65.495857, 1,
-                          2011, 8788, 1165.214159, 1, 1, 78.39564, 0.001099,
-                          0.212766, 77.993875, 0.188999, 78.39564, 1, 4, 100,
-                          179, 560, 1056.339702, 1, 1, 53.355167,
-                      ]
-                    : [59.08, 79.79, 87.77];
+    <div class="section">
+      <h3>📊 Distribuição de Latência</h3>
+    <canvas id="chart" class="no-break"></canvas>
+    </div>
 
-            new Chart(ctx, {
-                type: "line",
-                data: {
-                    labels: [
-                        1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16,
-                        17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
-                        31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44,
-                        45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58,
-                        59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72,
-                        73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86,
-                        87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100,
-                    ],
-                    datasets: [
-                        {
-                            label: "Latência (ms)",
-                            data: safeLatencies,
-                            borderColor: "#3498db",
-                            borderWidth: 2,
-                            tension: 0.3,
-                            pointRadius: 0,
-                        },
-                        {
-                            label: "p95",
-                            data: p95Line,
-                            borderColor: "#f39c12",
-                            borderDash: [5, 5],
-                            borderWidth: 2,
-                            pointRadius: 0,
-                        },
-                        {
-                            label: "p99",
-                            data: p99Line,
-                            borderColor: "#e74c3c",
-                            borderDash: [5, 5],
-                            borderWidth: 2,
-                            pointRadius: 0,
-                        },
-                    ],
-                },
-                options: {
-                    plugins: {
-                        legend: { display: true },
-                    },
+    <div class="section">
+      <h3>🧠 Análise Técnica</h3>
+      <ul class="analysis">
+        <li>Teste executado com 200 usuários simultâneos</li>
+        <li>Latência p95 em 81 ms</li>
+        <li>Taxa de erro: 0.00%</li>
+        <li>Throughput médio: 85.87 req/s</li>
+        <li>Sistema altamente performático mesmo sob carga.</li>
+        <li>Nenhuma falha detectada durante o teste.</li>
+      </ul>
+    </div>
 
-                    scales: {
-                        y: {
-                            beginAtZero: false,
-                            min: 33.74 * 0.9,
-                            max: 87.77 * 1.3,
-                        },
-                    },
-                },
-            });
-        </script>
-    </body>
+    <div class="section">
+      <h3>📌 Conclusão</h3>
+      <p>
+        Sistema aprovado para carga atual.
+      </p>
+    </div>
+
+  </div>
+</div>
+
+<script>
+const ctx = document.getElementById('chart').getContext('2d');
+
+const p95Line = Array(100).fill(80.99);
+const p99Line = Array(100).fill(89.09);
+const safeLatencies = [1,51.406341,183.164721,19.217129,81.773307,0.325014,50.90147,0.179857,51.406341,1,2,200,1,61.670118,100.788873,19.545988,80.982344,0.238278,61.17834,0.2535,61.670118,1,2002,8757,1235.25117,1,1,51.426377,0.000492,0.139587,51.112052,0.174738,51.426377,1,1,51.235221,97.133342,17.609576,79.29007,0.192219,50.672594,0.370408,51.235221,1,3,200,2012,8788,1163.355779,1,1,87.836292,0.001247,0.269321,87.310317,0.256654,87.836292,1,166,591,1052.037284,1,1,50.603903,0.001081,0.22285,50.121518,0.259535,50.603903,1,1,69.154268,97.912,17.30257,80.29713,0.253666,68.263496,0.637106,69.154268,1,1999,8788,1149.76439,1,1,72.566189,0.001086,0.224642,72.030606,0.310941,72.566189,1,4,200,176,591,1088.875953,1,1,64.678986].length > 0
+  ? [1,51.406341,183.164721,19.217129,81.773307,0.325014,50.90147,0.179857,51.406341,1,2,200,1,61.670118,100.788873,19.545988,80.982344,0.238278,61.17834,0.2535,61.670118,1,2002,8757,1235.25117,1,1,51.426377,0.000492,0.139587,51.112052,0.174738,51.426377,1,1,51.235221,97.133342,17.609576,79.29007,0.192219,50.672594,0.370408,51.235221,1,3,200,2012,8788,1163.355779,1,1,87.836292,0.001247,0.269321,87.310317,0.256654,87.836292,1,166,591,1052.037284,1,1,50.603903,0.001081,0.22285,50.121518,0.259535,50.603903,1,1,69.154268,97.912,17.30257,80.29713,0.253666,68.263496,0.637106,69.154268,1,1999,8788,1149.76439,1,1,72.566189,0.001086,0.224642,72.030606,0.310941,72.566189,1,4,200,176,591,1088.875953,1,1,64.678986]
+  : [60.43, 80.99, 89.09];
+
+new Chart(ctx, {
+  type: 'line',
+  data: {
+    labels: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100],
+    datasets: [
+      {
+        label: 'Latência (ms)',
+        data: safeLatencies,
+        borderColor: '#3498db',
+        borderWidth: 2,
+        tension: 0.3,
+        pointRadius: 0
+      },
+      {
+        label: 'p95',
+        data: p95Line,
+        borderColor: '#f39c12',
+        borderDash: [5, 5],
+        borderWidth: 2,
+        pointRadius: 0
+      },
+      {
+        label: 'p99',
+        data: p99Line,
+        borderColor: '#e74c3c',
+        borderDash: [5, 5],
+        borderWidth: 2,
+        pointRadius: 0
+      }
+    ]
+  },
+  options: {
+    plugins: {
+      legend: { display: true }
+    },
+
+    scales: {
+  y: {
+    beginAtZero: false,
+    min: 33.47 * 0.9,
+    max: 89.09 * 1.3
+  }
+}
+  }
+});
+</script>
+
+</body>
 </html>
