@@ -187,7 +187,7 @@ const puppeteer = require("puppeteer");
     </div>
 
     <div class="section">
-      <h3>📈 Evolução da Latência (200 VU's)</h3>
+      <h3>📈 Evolução da Latência (500 VU's)</h3>
       <div class="chart-container">
         <canvas id="latencyChart"></canvas>
       </div>
